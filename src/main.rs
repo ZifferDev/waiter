@@ -1,6 +1,7 @@
 #![allow(clippy::type_complexity)]
 
 use std::collections::VecDeque;
+use std::env;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use rand::Rng;
@@ -23,8 +24,19 @@ const BLOCK_TYPES: [BlockState; 7] = [
 ];
 
 pub fn main() {
+    let velocity_secret = env::var("VELOCITY_SECRET").unwrap_or_else(|_| {
+        eprintln!("Warning: VELOCITY_SECRET environment variable not set, using default secret");
+        "000".to_string()
+    });
+
     App::new()
         .add_plugins(DefaultPlugins)
+        .insert_resource(NetworkSettings {
+            connection_mode: ConnectionMode::Velocity {
+                secret: velocity_secret.into(),
+            },
+            ..Default::default()
+        })
         .add_systems(
             Update,
             (

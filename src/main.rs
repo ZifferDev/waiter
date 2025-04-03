@@ -2,6 +2,7 @@
 
 use std::collections::VecDeque;
 use std::env;
+use std::net::SocketAddrV6;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use rand::Rng;
@@ -34,6 +35,7 @@ pub fn main() {
             connection_mode: ConnectionMode::Velocity {
                 secret: velocity_secret.into(),
             },
+            address: SocketAddrV6::new([0, 0, 0, 0, 0, 0, 0, 0].into(), 25565, 0, 0).into(),
             ..Default::default()
         })
         .add_plugins(DefaultPlugins)

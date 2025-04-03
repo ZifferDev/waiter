@@ -30,13 +30,13 @@ pub fn main() {
     });
 
     App::new()
-        .add_plugins(DefaultPlugins)
         .insert_resource(NetworkSettings {
             connection_mode: ConnectionMode::Velocity {
                 secret: velocity_secret.into(),
             },
             ..Default::default()
         })
+        .add_plugins(DefaultPlugins)
         .add_systems(
             Update,
             (
